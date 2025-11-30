@@ -110,7 +110,7 @@ const JsonBox = ({ jsonText, setJsonText }: Props) => {
 
         <label htmlFor="jsonUpload" className="file-label">
           <FiUpload />
-          Carregar JSON
+          Import JSON
         </label>
 
         <input

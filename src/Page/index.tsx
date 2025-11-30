@@ -1,9 +1,19 @@
 import { useState } from 'react'
 import Grafico from '../Components/Grafico'
 import JsonBox from '../Components/JsonBox'
+import { validateJsonKeyValueNumber } from '../utils'
 
 const Page = () => {
-  const [jsonText, setJsonText] = useState('{\n\n}')
+  const initialState = `
+{
+  "janeiro": 12,
+  "fevereiro": 24,
+  "março": 13,
+  "maio": 32,
+  "junho": 12
+}
+  `
+  const [jsonText, setJsonText] = useState(initialState)
 
   const geraData = (json: string): Record<string, number> => {
     try {
@@ -24,11 +34,20 @@ const Page = () => {
     }
   }
 
+  const isValid = (() => {
+    try {
+      const parsed = JSON.parse(jsonText)
+      return validateJsonKeyValueNumber(parsed) === ''
+    } catch {
+      return false
+    }
+  })()
+
   return (
     <main>
       <h1>Gerador de Gráficos</h1>
       <JsonBox jsonText={jsonText} setJsonText={setJsonText} />
-      <Grafico data={geraData(jsonText)} />
+      {isValid && <Grafico data={geraData(jsonText)} />}
     </main>
   )
 }
