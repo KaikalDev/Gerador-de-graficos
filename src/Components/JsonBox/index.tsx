@@ -3,10 +3,31 @@ import { JsonBoxContainer } from './styles'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { Colors } from '../../styles'
 import { FiUpload } from 'react-icons/fi'
+import { validateJsonKeyValueNumber } from '../../utils'
 
 const JsonBox = () => {
   const [jsonText, setJsonText] = useState('{\n\n}')
+  const [error, setError] = useState('')
   const monaco = useMonaco()
+
+  const handleEditorChange = (value: string | undefined) => {
+    const text = value ?? ''
+    setJsonText(text)
+
+    try {
+      const parsed = JSON.parse(text)
+
+      const validationError = validateJsonKeyValueNumber(parsed)
+      if (validationError) {
+        setError(validationError)
+        return
+      }
+
+      setError('')
+    } catch (err: any) {
+      setError(err.message)
+    }
+  }
 
   useEffect(() => {
     if (monaco) {
@@ -40,12 +61,12 @@ const JsonBox = () => {
 
   return (
     <JsonBoxContainer>
-      <h2>Dados (JSON)</h2>
       <div>
         <Editor
           height="300px"
           defaultLanguage="json"
           value={jsonText}
+          onChange={handleEditorChange}
           theme="vs-Dark"
           options={{
             minimap: { enabled: false },
@@ -56,7 +77,7 @@ const JsonBox = () => {
 
         <label htmlFor="jsonUpload" className="file-label">
           <FiUpload />
-          Import JSON
+          Carregar JSON
         </label>
 
         <input
@@ -66,6 +87,7 @@ const JsonBox = () => {
           className="file-input"
         />
       </div>
+      {error && <p className="Error">Erro: {error}</p>}
     </JsonBoxContainer>
   )
 }
