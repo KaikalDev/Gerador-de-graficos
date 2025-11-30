@@ -29,6 +29,33 @@ const JsonBox = () => {
     }
   }
 
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.name.endsWith('.json')) {
+      setError('O arquivo deve ser um .json')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      const result = event.target?.result
+
+      if (typeof result !== 'string') {
+        setError('O arquivo não contém texto válido.')
+        return
+      }
+
+      try {
+        JSON.parse(result)
+        setError('')
+        setJsonText(result)
+      } catch (err: any) {
+        setError('JSON inválido no arquivo: ' + err.message)
+      }
+    }
+    reader.readAsText(file)
+  }
+
   useEffect(() => {
     if (monaco) {
       monaco.editor.defineTheme('github-dark', {
@@ -84,6 +111,7 @@ const JsonBox = () => {
           id="jsonUpload"
           type="file"
           accept="application/json"
+          onChange={handleUpload}
           className="file-input"
         />
       </div>
