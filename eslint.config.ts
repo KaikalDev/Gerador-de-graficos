@@ -6,8 +6,12 @@ import prettier from 'eslint-plugin-prettier'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
+  tseslint.configs.recommended,
+  react.configs.flat.recommended,
+  reactHooks.configs.flat.recommended,
+
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
 
     languageOptions: {
       parser: tseslint.parser,
@@ -26,11 +30,11 @@ export default defineConfig([
     },
 
     rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-
-      'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
 
       'no-undef': 'off',
       '@typescript-eslint/no-var-requires': 'off',
@@ -42,10 +46,5 @@ export default defineConfig([
     settings: {
       react: { version: 'detect' }
     }
-  },
-
-  tseslint.configs.recommended,
-  react.configs.flat.recommended,
-
-  reactHooks.configs.flat['recommended']
+  }
 ])
