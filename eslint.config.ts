@@ -26,31 +26,26 @@ export default defineConfig([
     },
 
     rules: {
-      // react-hooks — manual
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
 
-      // react
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
 
-      // TS
       'no-undef': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
 
-      // prettier
       'prettier/prettier': 'error'
     },
 
     settings: {
-      react: {
-        version: 'detect'
-      }
+      react: { version: 'detect' }
     }
   },
 
-  // presets seguros
   tseslint.configs.recommended,
-  react.configs.flat.recommended
+  react.configs.flat.recommended,
+
+  reactHooks.configs.flat['recommended']
 ])
