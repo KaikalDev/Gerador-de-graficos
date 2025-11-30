@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Gerador de Gráficos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto front-end feito com **Vite + React + TypeScript** para gerar gráficos a partir de dados JSON.
 
-Currently, two official plugins are available:
+🚀 **Deploy:** [https://gerador-de-graficos-xi.vercel.app/](https://gerador-de-graficos-xi.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* Editor de JSON integrado com **Monaco Editor**
+* Validação automática do JSON (objeto simples de chave/valor numérico)
+* Upload de arquivos `.json`
+* Gráficos de barra e pizza
+* Exportação do gráfico como PNG
+* Tema escuro para editor e gráficos
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tecnologias e Dependências Principais
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* **React**
+* **TypeScript**
+* **Vite**
+* **React Google Charts**
+* **Monaco Editor**
+* **Styled Components**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Rodando localmente
+
+```bash
+# Clonar o projeto
+git clone https://github.com/seu-usuario/gerador-de-graficos.git
+cd gerador-de-graficos
+
+# Instalar dependências
+yarn install
+
+# Rodar em modo de desenvolvimento
+yarn dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Abra no navegador: `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Build e produção
+
+```bash
+# Gerar build de produção
+yarn build
+
+# Servir o build localmente
+yarn preview
 ```
+
+---
+
+## Docker
+
+```bash
+# Build da imagem
+docker build -t gerador-de-graficos:v2.0.0 .
+
+# Rodar o container
+docker run -p 5173:80 gerador-de-graficos:v2.0.0
+```
+
+Abra no navegador: `http://localhost:5173`
