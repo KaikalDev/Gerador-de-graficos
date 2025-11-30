@@ -6,7 +6,6 @@ import { FiUpload } from 'react-icons/fi'
 
 const JsonBox = () => {
   const [jsonText, setJsonText] = useState('{\n\n}')
-  const [error, setError] = useState('')
   const monaco = useMonaco()
 
   useEffect(() => {
@@ -39,53 +38,14 @@ const JsonBox = () => {
     }
   }, [monaco])
 
-  const handleEditorChange = (value: string | undefined) => {
-    const text = value ?? ''
-    setJsonText(text)
-
-    try {
-      JSON.parse(text)
-      setError('')
-    } catch (err: any) {
-      setError(err.message)
-    }
-  }
-
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (!file.name.endsWith('.json')) {
-      setError('O arquivo deve ser um .json')
-      return
-    }
-    const reader = new FileReader()
-    reader.onload = (event: ProgressEvent<FileReader>) => {
-      const result = event.target?.result
-
-      if (typeof result !== 'string') {
-        setError('O arquivo não contém texto válido.')
-        return
-      }
-
-      try {
-        JSON.parse(result)
-        setError('')
-        setJsonText(result)
-      } catch (err: any) {
-        setError('JSON inválido no arquivo: ' + err.message)
-      }
-    }
-    reader.readAsText(file)
-  }
-
   return (
     <JsonBoxContainer>
+      <h2>Dados (JSON)</h2>
       <div>
         <Editor
           height="300px"
           defaultLanguage="json"
           value={jsonText}
-          onChange={handleEditorChange}
           theme="vs-Dark"
           options={{
             minimap: { enabled: false },
@@ -96,18 +56,16 @@ const JsonBox = () => {
 
         <label htmlFor="jsonUpload" className="file-label">
           <FiUpload />
-          Carregar JSON
+          Import JSON
         </label>
 
         <input
           id="jsonUpload"
           type="file"
           accept="application/json"
-          onChange={handleUpload}
           className="file-input"
         />
       </div>
-      {error && <p className="Error">Erro: {error}</p>}
     </JsonBoxContainer>
   )
 }

@@ -5,7 +5,6 @@ export const JsonBoxContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 48px;
 
   > div {
     background-color: ${Colors.bg_code};
