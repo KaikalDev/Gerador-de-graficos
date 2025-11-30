@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Chart } from 'react-google-charts'
 import { GraficoContainer } from './styles'
 import { FiDownload } from 'react-icons/fi'
@@ -19,6 +19,7 @@ const COLORS = [
 const Grafico = ({ data }: GraficoProps) => {
   const entries = useMemo(() => Object.entries(data), [data])
   const [type, setType] = useState<'bar' | 'pie'>('bar')
+  const chartWrapperRef = useRef<any>(null)
 
   const chartData = useMemo(() => {
     if (type === 'bar') {
@@ -65,6 +66,20 @@ const Grafico = ({ data }: GraficoProps) => {
   const chartType = type === 'bar' ? 'ColumnChart' : 'PieChart'
   const height = type === 'bar' ? '360px' : '350px'
 
+  const handleExport = () => {
+    const wrapper = chartWrapperRef.current
+    if (!wrapper) return
+
+    const chart = wrapper.getChart()
+    const imageURI = chart.getImageURI()
+
+    // Cria download
+    const a = document.createElement('a')
+    a.href = imageURI
+    a.download = 'grafico.png'
+    a.click()
+  }
+
   return (
     <GraficoContainer>
       <h2>Gráfico</h2>
@@ -77,7 +92,7 @@ const Grafico = ({ data }: GraficoProps) => {
             <option value="bar">Barra</option>
             <option value="pie">Pizza</option>
           </select>
-          <button>
+          <button onClick={handleExport}>
             <FiDownload />
             Export PNG
           </button>
@@ -88,6 +103,14 @@ const Grafico = ({ data }: GraficoProps) => {
           height={height}
           data={chartData}
           options={options}
+          chartEvents={[
+            {
+              eventName: 'ready',
+              callback: ({ chartWrapper }) => {
+                chartWrapperRef.current = chartWrapper
+              }
+            }
+          ]}
         />
       </div>
     </GraficoContainer>
