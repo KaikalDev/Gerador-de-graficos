@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { JsonBoxContainer } from './styles'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { Colors } from '../../styles'
+import { FiUpload } from 'react-icons/fi'
 
 const JsonBox = () => {
   const [jsonText, setJsonText] = useState('{\n\n}')
@@ -79,21 +80,33 @@ const JsonBox = () => {
 
   return (
     <JsonBoxContainer>
-      <input type="file" accept="application/json" onChange={handleUpload} />
+      <div>
+        <Editor
+          height="300px"
+          defaultLanguage="json"
+          value={jsonText}
+          onChange={handleEditorChange}
+          theme="vs-Dark"
+          options={{
+            minimap: { enabled: false },
+            automaticLayout: true,
+            tabSize: 2
+          }}
+        />
 
-      <Editor
-        height="300px"
-        defaultLanguage="json"
-        value={jsonText}
-        onChange={handleEditorChange}
-        theme="vs-Dark"
-        options={{
-          minimap: { enabled: false },
-          automaticLayout: true,
-          tabSize: 2
-        }}
-      />
+        <label htmlFor="jsonUpload" className="file-label">
+          <FiUpload />
+          Carregar JSON
+        </label>
 
+        <input
+          id="jsonUpload"
+          type="file"
+          accept="application/json"
+          onChange={handleUpload}
+          className="file-input"
+        />
+      </div>
       {error && <p className="Error">Erro: {error}</p>}
     </JsonBoxContainer>
   )
